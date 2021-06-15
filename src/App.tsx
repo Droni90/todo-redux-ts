@@ -1,8 +1,14 @@
 import React from "react";
+import TodoGroups from "./components/TodoGroups";
+import "fontsource-roboto";
+import { Container } from "@material-ui/core";
 
 const App: React.FC = () => {
-  const x = 5;
-  return <div className="App">{x}</div>;
+  return (
+    <Container maxWidth="md">
+      <TodoGroups />
+    </Container>
+  );
 };
 
 export default App;
