@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Button,
   Container,
   FormControl,
   FormControlLabel,
@@ -9,7 +8,12 @@ import {
   Radio,
   RadioGroup,
 } from "@material-ui/core";
-import GroupsList from "./GroupsList";
+import { Link, useRouteMatch } from "react-router-dom";
+import { addTodo } from "../redux/actions/group";
+import { useDispatch } from "react-redux";
+import { useTypeSelector } from "../hooks/useTypeSelector";
+import Todo from "./Todo";
+import { ITodoList } from "../interfaces";
 
 const useStyles = makeStyles({
   roof: {
@@ -24,15 +28,36 @@ const useStyles = makeStyles({
     width: "80%",
   },
 });
-interface ITodoList {
-  handleGroupClick: () => void;
-}
-const TodoList: React.FC<ITodoList> = ({ handleGroupClick }) => {
+
+const TodoList: React.FC = () => {
   const classes = useStyles();
+  // const { currentGroupId, groups } = useTypeSelector(
+  //   (state) => state.groupsList
+  // );
+  // const todos = groups.reduce((obj, group) => {
+  //   if (group.id === currentGroupId) {
+  //     obj = group.todos;
+  //   }
+  //   return obj;
+  // }, {});
+  //
+  // console.log(todos);
+  const match = useRouteMatch("/group/:id");
+  const { id }: any = match!.params;
+
+  // const { groups } = useTypeSelector((state) => state.groupsList);
+  // const todos = groups.reduce((obj, group) => {
+  //   if (group.id === id) {
+  //     obj = group.todos;
+  //   }
+  //   return obj;
+  // }, {});
+  // console.log(todos);
+
   const [inputSearch, setInputSearch] = useState<string>("");
   const [inputTodo, setInputTodo] = useState<string>("");
-  const [done, setDone] = useState<boolean>(false);
-
+  const [radioValue, setRadioValue] = React.useState("All");
+  const dispatch = useDispatch();
   const handleSearchInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setInputSearch(evt.target.value);
   };
@@ -41,19 +66,17 @@ const TodoList: React.FC<ITodoList> = ({ handleGroupClick }) => {
     setInputTodo(evt.target.value);
   };
 
-  const [radioValue, setRadioValue] = React.useState("All");
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setRadioValue(evt.target.value);
   };
-  // const [groups, setGroups] = useState<ITodoList[]>([]);
   //
-  // const onEnter = (evt: React.KeyboardEvent) => {
-  //   if (evt.key === "Enter") {
-  //     const newGroup: ITodoList = { groupName: inputTodo, id: Date.now() };
-  //     setGroups([newGroup, ...groups]);
-  //     setInputTodo("");
-  //   }
-  // };
+  const onEnter = (evt: React.KeyboardEvent) => {
+    if (evt.key === "Enter") {
+      const newGroup: ITodoList = { groupName: inputTodo, id: Date.now() };
+      dispatch(addTodo(newGroup, id));
+      setInputTodo("");
+    }
+  };
 
   // const handleRemove = (id: number) => {
   //   setGroups((prev) => prev.filter((group) => group.id !== id));
@@ -89,15 +112,16 @@ const TodoList: React.FC<ITodoList> = ({ handleGroupClick }) => {
           <FormControlLabel value="male" control={<Radio />} label="Undone" />
         </RadioGroup>
       </FormControl>
+      <Todo id={id} />
       <OutlinedInput
         value={inputTodo}
         onChange={handleTodoInput}
         className={classes.input}
         placeholder="Добавить"
-        // onKeyDown={onEnter}
+        onKeyDown={onEnter}
         required={true}
       />
-      <Button onClick={handleGroupClick}>Назад</Button>
+      <Link to="/">Назад</Link>
     </Container>
   );
 };

@@ -8,3 +8,7 @@ export const fetchGroups = (group: ITodoList) => {
 export const removeGroup = (id: number) => {
   return { type: ActionGroupTypes.REMOVE_GROUP, payload: id };
 };
+
+export const addTodo = (todo: ITodoList, id: number) => {
+  return { type: ActionGroupTypes.ADD_TODO, payload: todo, id };
+};

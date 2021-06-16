@@ -46,13 +46,13 @@ const useStyles = makeStyles({
   },
 });
 interface IMain {
-  handleGroupClick: () => void;
+  handleGroupClick: (id: number) => void;
 }
 const Main: React.FC<IMain> = ({ handleGroupClick }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState<string>("");
-  const groups = useTypeSelector((state) => state.groupsList.group);
+  const groups = useTypeSelector((state) => state.groupsList.groups);
 
   const handleValue = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(evt.target.value);
@@ -60,7 +60,12 @@ const Main: React.FC<IMain> = ({ handleGroupClick }) => {
 
   const handleAddGroupSubmit = (evt: React.FormEvent) => {
     evt.preventDefault();
-    const newGroup: ITodoList = { groupName: inputValue, id: Date.now() };
+    const arr: any[] = [];
+    const newGroup: IGroupList = {
+      groupName: inputValue,
+      id: Date.now(),
+      todos: arr,
+    };
     dispatch(fetchGroups(newGroup));
     setInputValue("");
   };

@@ -3,6 +3,8 @@ import Main from "./Main";
 import "fontsource-roboto";
 import { Container, makeStyles } from "@material-ui/core";
 import TodoList from "./TodoList";
+import { useDispatch } from "react-redux";
+import { Route, Switch } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -15,18 +17,18 @@ const useStyles = makeStyles({
 
 const App: React.FC = () => {
   const classes = useStyles();
-  const [isGroupOpen, setGroupOpen] = useState(false);
-  const handleGroupClick = () => {
-    setGroupOpen(!isGroupOpen);
-  };
+  const handleGroupClick = () => {};
 
   return (
     <Container className={classes.root}>
-      {isGroupOpen ? (
-        <TodoList handleGroupClick={handleGroupClick} />
-      ) : (
-        <Main handleGroupClick={handleGroupClick} />
-      )}
+      <Switch>
+        <Route exact path="/">
+          <Main handleGroupClick={handleGroupClick} />
+        </Route>
+        <Route path="/group/:id">
+          <TodoList />
+        </Route>
+      </Switch>
     </Container>
   );
 };

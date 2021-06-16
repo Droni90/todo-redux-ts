@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useTypeSelector } from "../hooks/useTypeSelector";
+import { Link } from "react-router-dom";
 import { removeGroup } from "../redux/actions/group";
 import { useDispatch } from "react-redux";
 
@@ -27,11 +28,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 interface IGroupsList {
-  handleGroupClick: () => void;
+  handleGroupClick: (id: number) => void;
 }
 const GroupsList: React.FC<IGroupsList> = ({ handleGroupClick }) => {
   const classes = useStyles();
-  const groups = useTypeSelector((state) => state.groupsList.group);
+  const groups = useTypeSelector((state) => state.groupsList.groups);
   const dispatch = useDispatch();
   const handleRemove = (id: number) => {
     dispatch(removeGroup(id));
@@ -45,14 +46,17 @@ const GroupsList: React.FC<IGroupsList> = ({ handleGroupClick }) => {
             key={id}
             role={undefined}
             className={classes.listItem}
-            onClick={handleGroupClick}
+            onClick={() => handleGroupClick(id)}
             dense
             button
           >
-            <ListItemText
-              primary={`${groupName} (0 / ${groups.length})`}
-              // className={completed ? classes.completed : ""}
-            />
+            <Link to={`/group/${id}`}>
+              <ListItemText
+                primary={`${groupName} (0 / ${groups.length})`}
+                // className={completed ? classes.completed : ""}
+              />
+            </Link>
+
             <ListItemSecondaryAction>
               <IconButton onClick={() => handleRemove(id)}>
                 <DeleteIcon />
