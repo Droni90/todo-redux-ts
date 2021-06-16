@@ -6,18 +6,19 @@ import {
   makeStyles,
   OutlinedInput,
 } from "@material-ui/core";
-import { IGroupList } from "../interfaces";
+import { IGroupList, ITodoList } from "../interfaces";
 import GroupsList from "./GroupsList";
+import { fetchGroups, removeGroup } from "../redux/actions/group";
+import { useDispatch } from "react-redux";
+import { useTypeSelector } from "../hooks/useTypeSelector";
 
 const useStyles = makeStyles({
-  root: {
-    backgroundColor: "#cfe8fc",
-    height: "100vh",
+  roof: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    padding: "50px 0",
     alignItems: "center",
+    height: "100%",
   },
   button: {
     backgroundColor: "#96e395",
@@ -44,43 +45,43 @@ const useStyles = makeStyles({
     marginTop: "50%",
   },
 });
-
-const TodoGroups: React.FC = () => {
+interface IMain {
+  handleGroupClick: () => void;
+}
+const Main: React.FC<IMain> = ({ handleGroupClick }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState<string>("");
-  const [groups, setGroups] = useState<IGroupList[]>([]);
+  const groups = useTypeSelector((state) => state.groupsList.group);
 
   const handleValue = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(evt.target.value);
   };
 
-  const handleSubmit = (evt: React.FormEvent) => {
+  const handleAddGroupSubmit = (evt: React.FormEvent) => {
     evt.preventDefault();
-    const newGroup: IGroupList = { groupName: inputValue, id: Date.now() };
-    setGroups([newGroup, ...groups]);
+    const newGroup: ITodoList = { groupName: inputValue, id: Date.now() };
+    dispatch(fetchGroups(newGroup));
     setInputValue("");
   };
 
-  const handleRemove = (id: number) => {
-    setGroups((prev) => prev.filter((group) => group.id !== id));
-  };
-
   return (
-    <Container className={classes.root}>
+    <Container className={classes.roof}>
       <Box className={classes.box}>
         <h1>ToDo groups</h1>
         {groups.length ? (
-          <GroupsList groups={groups} handleRemove={handleRemove} />
+          <GroupsList handleGroupClick={handleGroupClick} />
         ) : (
           <h2 className={classes.subtitle}>У вас нет дел</h2>
         )}
       </Box>
-      <form className={classes.form} noValidate onSubmit={handleSubmit}>
+      <form className={classes.form} onSubmit={handleAddGroupSubmit}>
         <OutlinedInput
           id="component-outlined"
           value={inputValue}
           onChange={handleValue}
           className={classes.input}
+          required={true}
         />
         <Button
           className={classes.button}
@@ -95,4 +96,4 @@ const TodoGroups: React.FC = () => {
   );
 };
 
-export default TodoGroups;
+export default Main;

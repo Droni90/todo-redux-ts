@@ -8,7 +8,9 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { IGroupList } from "../interfaces";
+import { useTypeSelector } from "../hooks/useTypeSelector";
+import { removeGroup } from "../redux/actions/group";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,15 +22,20 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
   },
+  completed: {
+    textDecoration: "line-through",
+  },
 }));
-
-interface IGroups {
-  groups: IGroupList[];
-  handleRemove: (id: number) => void;
+interface IGroupsList {
+  handleGroupClick: () => void;
 }
-
-const GroupsList: React.FC<IGroups> = ({ groups, handleRemove }) => {
+const GroupsList: React.FC<IGroupsList> = ({ handleGroupClick }) => {
   const classes = useStyles();
+  const groups = useTypeSelector((state) => state.groupsList.group);
+  const dispatch = useDispatch();
+  const handleRemove = (id: number) => {
+    dispatch(removeGroup(id));
+  };
 
   return (
     <List className={classes.root}>
@@ -38,10 +45,14 @@ const GroupsList: React.FC<IGroups> = ({ groups, handleRemove }) => {
             key={id}
             role={undefined}
             className={classes.listItem}
+            onClick={handleGroupClick}
             dense
             button
           >
-            <ListItemText primary={`${groupName} (0 / ${groups.length})`} />
+            <ListItemText
+              primary={`${groupName} (0 / ${groups.length})`}
+              // className={completed ? classes.completed : ""}
+            />
             <ListItemSecondaryAction>
               <IconButton onClick={() => handleRemove(id)}>
                 <DeleteIcon />
