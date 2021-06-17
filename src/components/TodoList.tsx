@@ -11,7 +11,6 @@ import {
 import { Link, useRouteMatch } from "react-router-dom";
 import { addTodo } from "../redux/actions/group";
 import { useDispatch } from "react-redux";
-import { useTypeSelector } from "../hooks/useTypeSelector";
 import Todo from "./Todo";
 import { ITodoList } from "../interfaces";
 
@@ -27,32 +26,18 @@ const useStyles = makeStyles({
     height: "40px",
     width: "80%",
   },
+  link: {
+    textDecoration: "none",
+    color: "#000",
+    fontSize: "24px",
+    paddingBottom: "40px",
+  },
 });
 
 const TodoList: React.FC = () => {
   const classes = useStyles();
-  // const { currentGroupId, groups } = useTypeSelector(
-  //   (state) => state.groupsList
-  // );
-  // const todos = groups.reduce((obj, group) => {
-  //   if (group.id === currentGroupId) {
-  //     obj = group.todos;
-  //   }
-  //   return obj;
-  // }, {});
-  //
-  // console.log(todos);
   const match = useRouteMatch("/group/:id");
   const { id }: any = match!.params;
-
-  // const { groups } = useTypeSelector((state) => state.groupsList);
-  // const todos = groups.reduce((obj, group) => {
-  //   if (group.id === id) {
-  //     obj = group.todos;
-  //   }
-  //   return obj;
-  // }, {});
-  // console.log(todos);
 
   const [inputSearch, setInputSearch] = useState<string>("");
   const [inputTodo, setInputTodo] = useState<string>("");
@@ -71,35 +56,23 @@ const TodoList: React.FC = () => {
   };
   //
   const onEnter = (evt: React.KeyboardEvent) => {
-    if (evt.key === "Enter") {
-      const newGroup: ITodoList = { groupName: inputTodo, id: Date.now() };
+    if (evt.key === "Enter" && inputTodo) {
+      const newGroup: ITodoList = { todoName: inputTodo, id: Date.now() };
       dispatch(addTodo(newGroup, id));
       setInputTodo("");
     }
   };
 
-  // const handleRemove = (id: number) => {
-  //   setGroups((prev) => prev.filter((group) => group.id !== id));
-  // };
-  // const handleTodoItem = (id: number) => {
-  //   setGroups((prev) =>
-  //     prev.map((todo) => {
-  //       if (todo.id === id) {
-  //         todo.completed = !todo.completed;
-  //       }
-  //       return todo;
-  //     })
-  //   );
-  // };
-
   return (
     <Container className={classes.roof}>
+      <Link className={classes.link} to="/">
+        На главную
+      </Link>
       <OutlinedInput
         value={inputSearch}
         onChange={handleSearchInput}
         className={classes.input}
         placeholder="Search..."
-        required={true}
       />
       <FormControl component="fieldset">
         <RadioGroup
@@ -108,11 +81,11 @@ const TodoList: React.FC = () => {
           value={radioValue}
           onChange={handleChange}
         >
-          <FormControlLabel value="female" control={<Radio />} label="All" />
-          <FormControlLabel value="male" control={<Radio />} label="Undone" />
+          <FormControlLabel value="All" control={<Radio />} label="All" />
+          <FormControlLabel value="Undone" control={<Radio />} label="Undone" />
         </RadioGroup>
       </FormControl>
-      <Todo id={id} />
+      <Todo id={id} inputSearch={inputSearch} radioValue={radioValue} />
       <OutlinedInput
         value={inputTodo}
         onChange={handleTodoInput}
@@ -121,7 +94,6 @@ const TodoList: React.FC = () => {
         onKeyDown={onEnter}
         required={true}
       />
-      <Link to="/">Назад</Link>
     </Container>
   );
 };

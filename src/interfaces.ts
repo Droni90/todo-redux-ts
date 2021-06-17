@@ -5,6 +5,7 @@ export interface IGroupList {
   currentId?: number;
 }
 export interface ITodoList {
-  groupName: string;
+  todoName: string;
   id: number;
+  completed?: boolean;
 }

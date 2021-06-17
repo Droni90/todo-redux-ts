@@ -12,6 +12,7 @@ import { useTypeSelector } from "../hooks/useTypeSelector";
 import { Link } from "react-router-dom";
 import { removeGroup } from "../redux/actions/group";
 import { useDispatch } from "react-redux";
+import { ITodoList } from "../interfaces";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,8 +24,12 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
   },
-  completed: {
-    textDecoration: "line-through",
+  link: {
+    textDecoration: "none",
+    color: "#000",
+  },
+  text: {
+    fontSize: "45px",
   },
 }));
 interface IGroupsList {
@@ -36,6 +41,30 @@ const GroupsList: React.FC<IGroupsList> = ({ handleGroupClick }) => {
   const dispatch = useDispatch();
   const handleRemove = (id: number) => {
     dispatch(removeGroup(id));
+  };
+
+  const countTodos = (id: number) => {
+    let count;
+    groups.forEach((group) => {
+      if (group.id === id) {
+        count = group.todos.length;
+      }
+    });
+    return count;
+  };
+
+  const countCompletedTodos = (id: number) => {
+    let count = 0;
+    groups.forEach((group) => {
+      if (group.id === id) {
+        group.todos.forEach((todo: ITodoList) => {
+          if (todo.completed) {
+            count++;
+          }
+        });
+      }
+    });
+    return count;
   };
 
   return (
@@ -50,8 +79,13 @@ const GroupsList: React.FC<IGroupsList> = ({ handleGroupClick }) => {
             dense
             button
           >
-            <Link to={`/group/${id}`}>
-              <ListItemText primary={`${groupName} (0 / ${groups.length})`} />
+            <Link className={classes.link} to={`/group/${id}`}>
+              <ListItemText
+                className={classes.text}
+                primary={`${groupName} (${countCompletedTodos(
+                  id
+                )} / ${countTodos(id)})`}
+              />
             </Link>
 
             <ListItemSecondaryAction>

@@ -10,6 +10,7 @@ export enum ActionGroupTypes {
   ADD_GROUP = "ADD_GROUP",
   ADD_TODO = "ADD_TODO",
   REMOVE_TODO = "REMOVE_TODO",
+  CHECK_TODO = "CHECK_TODO",
 }
 interface FetchGroupRequestAction {
   type: ActionGroupTypes.FETCH_GROUP_REQUEST;
@@ -41,6 +42,11 @@ interface RemoveTodoAction {
   groupId: number;
   todoId: number;
 }
+interface CheckTodo {
+  type: ActionGroupTypes.CHECK_TODO;
+  groupId: number;
+  todoId: number;
+}
 
 export type GroupAction =
   | FetchGroupRequestAction
@@ -49,4 +55,5 @@ export type GroupAction =
   | AddGroupAction
   | RemoveGroupAction
   | AddTodoAction
-  | RemoveTodoAction;
+  | RemoveTodoAction
+  | CheckTodo;

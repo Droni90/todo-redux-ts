@@ -1,46 +1,57 @@
 import React, { useMemo } from "react";
-import {
-  IconButton,
-  List,
-  ListItem,
-  ListItemSecondaryAction,
-  ListItemText,
-} from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { List } from "@material-ui/core";
 import { useTypeSelector } from "../hooks/useTypeSelector";
 import { ITodoList } from "../interfaces";
-import { removeTodo } from "../redux/actions/group";
-import { useDispatch } from "react-redux";
+
+import TodoItem from "./TodoItem";
 
 interface ITodo {
   id: string;
+  inputSearch: string;
+  radioValue: string;
 }
-const Todo: React.FC<ITodo> = ({ id }) => {
-  const dispatch = useDispatch();
+
+const Todo: React.FC<ITodo> = ({ id, inputSearch, radioValue }) => {
   const { groups } = useTypeSelector((state) => state.groupsList);
-
+  const groupId = +id;
   const todos = useMemo(() => {
-    return groups.find((item) => item.id === +id).todos;
+    return groups.find((item) => item.id === groupId).todos;
   }, [groups]);
-
-  const handleRemoveButton = (todoId: number) => {
-    dispatch(removeTodo(todoId, +id));
-  };
 
   return (
     <List>
-      {todos ? (
-        todos.map(({ groupName, id }: ITodoList) => {
-          return (
-            <ListItem key={id} role={undefined} dense button>
-              <ListItemText primary={groupName} />
-              <ListItemSecondaryAction>
-                <IconButton onClick={() => handleRemoveButton(id)}>
-                  <DeleteIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
-          );
+      {todos.length ? (
+        todos.map(({ todoName, id, completed }: ITodoList) => {
+          if (!inputSearch && radioValue === "All") {
+            return (
+              <TodoItem
+                todoName={todoName}
+                id={id}
+                groupId={groupId}
+                completed={completed}
+              />
+            );
+          }
+          if (inputSearch && todoName.startsWith(inputSearch)) {
+            return (
+              <TodoItem
+                todoName={todoName}
+                id={id}
+                completed={completed}
+                groupId={groupId}
+              />
+            );
+          }
+          if (radioValue === "Undone" && !completed) {
+            return (
+              <TodoItem
+                todoName={todoName}
+                id={id}
+                completed={completed}
+                groupId={groupId}
+              />
+            );
+          }
         })
       ) : (
         <h2>Дел пока нет</h2>

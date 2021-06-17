@@ -40,6 +40,19 @@ export const groupsList = (
       });
       return { groups: newGroups };
 
+    case ActionGroupTypes.CHECK_TODO:
+      newGroups = [...state.groups].map((item) => {
+        if (item.id === action.groupId) {
+          item.todos.forEach((todo: ITodoList) => {
+            if (todo.id === action.todoId) {
+              todo.completed = !todo.completed;
+            }
+          });
+        }
+        return item;
+      });
+      return { groups: newGroups };
+
     default:
       return state;
   }
