@@ -9,34 +9,33 @@ import {
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useTypeSelector } from "../hooks/useTypeSelector";
 import { ITodoList } from "../interfaces";
+import { removeTodo } from "../redux/actions/group";
+import { useDispatch } from "react-redux";
 
 interface ITodo {
   id: string;
 }
 const Todo: React.FC<ITodo> = ({ id }) => {
+  const dispatch = useDispatch();
   const { groups } = useTypeSelector((state) => state.groupsList);
 
   const todos = useMemo(() => {
     return groups.find((item) => item.id === +id).todos;
   }, [groups]);
-  console.log(todos);
+
+  const handleRemoveButton = (todoId: number) => {
+    dispatch(removeTodo(todoId, +id));
+  };
 
   return (
     <List>
       {todos ? (
         todos.map(({ groupName, id }: ITodoList) => {
           return (
-            <ListItem
-              key={id}
-              role={undefined}
-              // className={classes.listItem}
-              // onClick={() => handleGroupClick(id)}
-              dense
-              button
-            >
-              <ListItemText primary={`${groupName} (0 / ${groups.length})`} />
+            <ListItem key={id} role={undefined} dense button>
+              <ListItemText primary={groupName} />
               <ListItemSecondaryAction>
-                <IconButton>
+                <IconButton onClick={() => handleRemoveButton(id)}>
                   <DeleteIcon />
                 </IconButton>
               </ListItemSecondaryAction>

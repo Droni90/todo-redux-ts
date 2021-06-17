@@ -1,4 +1,5 @@
 import { ActionGroupTypes, GroupAction, GroupsState } from "../../types/todo";
+import { ITodoList } from "../../../interfaces";
 
 const initialState: GroupsState = {
   groups: [],
@@ -26,7 +27,17 @@ export const groupsList = (
         }
         return item;
       });
-      console.log(newGroups);
+      return { groups: newGroups };
+
+    case ActionGroupTypes.REMOVE_TODO:
+      newGroups = [...state.groups].map((item) => {
+        if (item.id === action.groupId) {
+          item.todos = item.todos.filter(
+            (todo: ITodoList) => todo.id !== action.todoId
+          );
+        }
+        return item;
+      });
       return { groups: newGroups };
 
     default:

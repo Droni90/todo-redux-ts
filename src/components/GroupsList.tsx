@@ -51,10 +51,7 @@ const GroupsList: React.FC<IGroupsList> = ({ handleGroupClick }) => {
             button
           >
             <Link to={`/group/${id}`}>
-              <ListItemText
-                primary={`${groupName} (0 / ${groups.length})`}
-                // className={completed ? classes.completed : ""}
-              />
+              <ListItemText primary={`${groupName} (0 / ${groups.length})`} />
             </Link>
 
             <ListItemSecondaryAction>

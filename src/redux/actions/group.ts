@@ -12,3 +12,11 @@ export const removeGroup = (id: number) => {
 export const addTodo = (todo: ITodoList, id: number) => {
   return { type: ActionGroupTypes.ADD_TODO, payload: todo, id };
 };
+
+export const removeTodo = (todoId: number, groupId: number) => {
+  return {
+    type: ActionGroupTypes.REMOVE_TODO,
+    groupId: groupId,
+    todoId: todoId,
+  };
+};
