@@ -1,100 +1,62 @@
-import React, { useState } from "react";
-import {
-  Container,
-  FormControl,
-  FormControlLabel,
-  makeStyles,
-  OutlinedInput,
-  Radio,
-  RadioGroup,
-} from "@material-ui/core";
-import { Link, useRouteMatch } from "react-router-dom";
-import { addTodo } from "../redux/actions/group";
-import { useDispatch } from "react-redux";
-import Todo from "./Todo";
+import React, { useMemo } from "react";
+import { List } from "@material-ui/core";
+import { useTypeSelector } from "../hooks/useTypeSelector";
 import { ITodoList } from "../interfaces";
 
-const useStyles = makeStyles({
-  roof: {
-    display: "flex",
-    flexDirection: "column",
-    width: "70%",
-  },
-  input: {
-    marginBottom: "15px",
-    backgroundColor: "#fff",
-    height: "40px",
-    width: "80%",
-  },
-  link: {
-    textDecoration: "none",
-    color: "#000",
-    fontSize: "24px",
-    paddingBottom: "40px",
-  },
-});
+import TodoItem from "./TodoItem";
 
-const TodoList: React.FC = () => {
-  const classes = useStyles();
-  const match = useRouteMatch("/group/:id");
-  const { id }: any = match!.params;
+interface ITodo {
+  id: string;
+  inputSearch: string;
+  radioValue: string;
+}
 
-  const [inputSearch, setInputSearch] = useState<string>("");
-  const [inputTodo, setInputTodo] = useState<string>("");
-  const [radioValue, setRadioValue] = React.useState("All");
-  const dispatch = useDispatch();
-  const handleSearchInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setInputSearch(evt.target.value);
-  };
-
-  const handleTodoInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setInputTodo(evt.target.value);
-  };
-
-  const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setRadioValue(evt.target.value);
-  };
-  //
-  const onEnter = (evt: React.KeyboardEvent) => {
-    if (evt.key === "Enter" && inputTodo) {
-      const newGroup: ITodoList = { todoName: inputTodo, id: Date.now() };
-      dispatch(addTodo(newGroup, id));
-      setInputTodo("");
-    }
-  };
+const TodoList: React.FC<ITodo> = ({ id, inputSearch, radioValue }) => {
+  const { groups } = useTypeSelector((state) => state.groupsList);
+  const groupId = +id;
+  const todos = useMemo(() => {
+    return groups.find((item) => item.id === groupId).todos;
+  }, [groups]);
 
   return (
-    <Container className={classes.roof}>
-      <Link className={classes.link} to="/">
-        На главную
-      </Link>
-      <OutlinedInput
-        value={inputSearch}
-        onChange={handleSearchInput}
-        className={classes.input}
-        placeholder="Search..."
-      />
-      <FormControl component="fieldset">
-        <RadioGroup
-          aria-label="filter"
-          name="filter"
-          value={radioValue}
-          onChange={handleChange}
-        >
-          <FormControlLabel value="All" control={<Radio />} label="All" />
-          <FormControlLabel value="Undone" control={<Radio />} label="Undone" />
-        </RadioGroup>
-      </FormControl>
-      <Todo id={id} inputSearch={inputSearch} radioValue={radioValue} />
-      <OutlinedInput
-        value={inputTodo}
-        onChange={handleTodoInput}
-        className={classes.input}
-        placeholder="Добавить"
-        onKeyDown={onEnter}
-        required={true}
-      />
-    </Container>
+    <List>
+      {todos.length ? (
+        todos.map(({ todoName, id, completed }: ITodoList) => {
+          if (!inputSearch && radioValue === "All") {
+            return (
+              <TodoItem
+                todoName={todoName}
+                id={id}
+                groupId={groupId}
+                completed={completed}
+              />
+            );
+          }
+          if (inputSearch && todoName.startsWith(inputSearch)) {
+            return (
+              <TodoItem
+                todoName={todoName}
+                id={id}
+                completed={completed}
+                groupId={groupId}
+              />
+            );
+          }
+          if (radioValue === "Undone" && !completed) {
+            return (
+              <TodoItem
+                todoName={todoName}
+                id={id}
+                completed={completed}
+                groupId={groupId}
+              />
+            );
+          }
+        })
+      ) : (
+        <h2>Дел пока нет</h2>
+      )}
+    </List>
   );
 };
 

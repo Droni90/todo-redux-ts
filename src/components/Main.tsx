@@ -6,9 +6,9 @@ import {
   makeStyles,
   OutlinedInput,
 } from "@material-ui/core";
-import { IGroupList, ITodoList } from "../interfaces";
+import { IGroupList } from "../interfaces";
 import GroupsList from "./GroupsList";
-import { fetchGroups, removeGroup } from "../redux/actions/group";
+import { fetchGroups } from "../redux/actions/group";
 import { useDispatch } from "react-redux";
 import { useTypeSelector } from "../hooks/useTypeSelector";
 
@@ -45,9 +45,11 @@ const useStyles = makeStyles({
     marginTop: "50%",
   },
 });
+
 interface IMain {
   handleGroupClick: (id: number) => void;
 }
+
 const Main: React.FC<IMain> = ({ handleGroupClick }) => {
   const classes = useStyles();
   const dispatch = useDispatch();

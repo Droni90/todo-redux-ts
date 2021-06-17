@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import Main from "./Main";
 import "fontsource-roboto";
 import { Container, makeStyles } from "@material-ui/core";
-import TodoList from "./TodoList";
-import { useDispatch } from "react-redux";
+import TodoPage from "./TodoPage";
 import { Route, Switch } from "react-router-dom";
 
 const useStyles = makeStyles({
@@ -26,7 +25,7 @@ const App: React.FC = () => {
           <Main handleGroupClick={handleGroupClick} />
         </Route>
         <Route path="/group/:id">
-          <TodoList />
+          <TodoPage />
         </Route>
       </Switch>
     </Container>
