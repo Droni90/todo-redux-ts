@@ -8,7 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter basename="/todo-redux-ts">
+    <BrowserRouter>
       <Provider store={store}>
         <App />
       </Provider>
