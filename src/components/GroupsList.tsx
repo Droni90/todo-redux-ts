@@ -40,7 +40,8 @@ const GroupsList: React.FC<IGroupsList> = ({ handleGroupClick }) => {
   const groups = useTypeSelector((state) => state.groupsList.groups);
   const dispatch = useDispatch();
 
-  const handleRemove = (id: number) => {
+  const handleRemove = (evt: React.SyntheticEvent, id: number) => {
+    evt.preventDefault();
     dispatch(removeGroup(id));
   };
 
@@ -72,29 +73,29 @@ const GroupsList: React.FC<IGroupsList> = ({ handleGroupClick }) => {
     <List className={classes.root}>
       {groups.map(({ groupName, id }) => {
         return (
-          <ListItem
-            key={id}
-            role={undefined}
-            className={classes.listItem}
-            onClick={() => handleGroupClick(id)}
-            dense
-            button
-          >
-            <Link className={classes.link} to={`/group/${id}`}>
+          <Link className={classes.link} to={`/group/${id}`}>
+            <ListItem
+              key={id}
+              role={undefined}
+              className={classes.listItem}
+              onClick={() => handleGroupClick(id)}
+              dense
+              button
+            >
               <ListItemText
                 className={classes.text}
                 primary={`${groupName} (${countCompletedTodos(
                   id
                 )} / ${countTodos(id)})`}
               />
-            </Link>
 
-            <ListItemSecondaryAction>
-              <IconButton onClick={() => handleRemove(id)}>
-                <DeleteIcon />
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
+              <ListItemSecondaryAction>
+                <IconButton onClick={(evt) => handleRemove(evt, id)}>
+                  <DeleteIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+          </Link>
         );
       })}
     </List>
