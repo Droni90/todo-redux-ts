@@ -42,6 +42,7 @@ const TodoPage: React.FC = () => {
   const [inputSearch, setInputSearch] = useState<string>("");
   const [inputTodo, setInputTodo] = useState<string>("");
   const [radioValue, setRadioValue] = React.useState("All");
+
   const dispatch = useDispatch();
   const handleSearchInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setInputSearch(evt.target.value);
@@ -54,7 +55,7 @@ const TodoPage: React.FC = () => {
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setRadioValue(evt.target.value);
   };
-  //
+
   const onEnter = (evt: React.KeyboardEvent) => {
     if (evt.key === "Enter" && inputTodo) {
       const newGroup: ITodoList = { todoName: inputTodo, id: Date.now() };

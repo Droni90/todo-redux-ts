@@ -1,7 +1,16 @@
 import { ActionGroupTypes } from "../types/todo";
 import { IGroupList, ITodoList } from "../../interfaces";
 
-export const fetchGroups = (group: IGroupList) => {
+export const loadGroups = () => {
+  return {
+    type: ActionGroupTypes.LOAD_GROUPS,
+  };
+};
+export const setGroups = (groups: any) => {
+  return { type: ActionGroupTypes.SET_GROUPS, payload: groups };
+};
+
+export const addGroup = (group: IGroupList) => {
   return { type: ActionGroupTypes.ADD_GROUP, payload: group };
 };
 

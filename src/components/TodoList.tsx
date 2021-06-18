@@ -14,6 +14,7 @@ interface ITodo {
 const TodoList: React.FC<ITodo> = ({ id, inputSearch, radioValue }) => {
   const { groups } = useTypeSelector((state) => state.groupsList);
   const groupId = +id;
+
   const todos = useMemo(() => {
     return groups.find((item) => item.id === groupId).todos;
   }, [groups]);
@@ -29,6 +30,7 @@ const TodoList: React.FC<ITodo> = ({ id, inputSearch, radioValue }) => {
                 id={id}
                 groupId={groupId}
                 completed={completed}
+                key={id}
               />
             );
           }
@@ -39,6 +41,7 @@ const TodoList: React.FC<ITodo> = ({ id, inputSearch, radioValue }) => {
                 id={id}
                 completed={completed}
                 groupId={groupId}
+                key={id}
               />
             );
           }
@@ -49,6 +52,7 @@ const TodoList: React.FC<ITodo> = ({ id, inputSearch, radioValue }) => {
                 id={id}
                 completed={completed}
                 groupId={groupId}
+                key={id}
               />
             );
           }

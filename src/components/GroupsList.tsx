@@ -39,6 +39,7 @@ const GroupsList: React.FC<IGroupsList> = ({ handleGroupClick }) => {
   const classes = useStyles();
   const groups = useTypeSelector((state) => state.groupsList.groups);
   const dispatch = useDispatch();
+
   const handleRemove = (id: number) => {
     dispatch(removeGroup(id));
   };

@@ -3,29 +3,21 @@ export interface GroupsState {
 }
 
 export enum ActionGroupTypes {
-  FETCH_GROUP_REQUEST = "FETCH_GROUP_REQUEST",
-  FETCH_GROUP_SUCCESS = "FETCH_GROUP_SUCCESS",
-  FETCH_GROUP_ERROR = "FETCH_GROUP_ERROR",
+  SET_GROUPS = "SET_GROUPS",
   REMOVE_GROUP = "REMOVE_GROUP",
   ADD_GROUP = "ADD_GROUP",
   ADD_TODO = "ADD_TODO",
   REMOVE_TODO = "REMOVE_TODO",
   CHECK_TODO = "CHECK_TODO",
+  LOAD_GROUPS = "LOAD_GROUPS",
 }
-interface FetchGroupRequestAction {
-  type: ActionGroupTypes.FETCH_GROUP_REQUEST;
-}
-interface FetchGroupSuccessAction {
-  type: ActionGroupTypes.FETCH_GROUP_SUCCESS;
-  payload: any[];
-}
-interface FetchGroupErrorAction {
-  type: ActionGroupTypes.FETCH_GROUP_ERROR;
-  payload: string;
+interface SetGroupsAction {
+  type: ActionGroupTypes.SET_GROUPS;
+  payload: [];
 }
 interface AddGroupAction {
   type: ActionGroupTypes.ADD_GROUP;
-  payload: any[];
+  payload: any;
 }
 interface RemoveGroupAction {
   type: ActionGroupTypes.REMOVE_GROUP;
@@ -47,13 +39,15 @@ interface CheckTodo {
   groupId: number;
   todoId: number;
 }
+interface LoadGroups {
+  type: ActionGroupTypes.LOAD_GROUPS;
+}
 
 export type GroupAction =
-  | FetchGroupRequestAction
-  | FetchGroupSuccessAction
-  | FetchGroupErrorAction
+  | SetGroupsAction
   | AddGroupAction
   | RemoveGroupAction
   | AddTodoAction
   | RemoveTodoAction
-  | CheckTodo;
+  | CheckTodo
+  | LoadGroups;

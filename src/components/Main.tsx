@@ -8,9 +8,9 @@ import {
 } from "@material-ui/core";
 import { IGroupList } from "../interfaces";
 import GroupsList from "./GroupsList";
-import { fetchGroups } from "../redux/actions/group";
 import { useDispatch } from "react-redux";
 import { useTypeSelector } from "../hooks/useTypeSelector";
+import { addGroup } from "../redux/actions/group";
 
 const useStyles = makeStyles({
   roof: {
@@ -68,7 +68,7 @@ const Main: React.FC<IMain> = ({ handleGroupClick }) => {
       id: Date.now(),
       todos: arr,
     };
-    dispatch(fetchGroups(newGroup));
+    dispatch(addGroup(newGroup));
     setInputValue("");
   };
 

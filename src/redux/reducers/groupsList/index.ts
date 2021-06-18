@@ -11,10 +11,11 @@ export const groupsList = (
 ): GroupsState => {
   let newGroups;
   switch (action.type) {
+    case ActionGroupTypes.SET_GROUPS:
+      return { ...state, groups: action.payload };
+
     case ActionGroupTypes.ADD_GROUP:
-      newGroups = [...state.groups];
-      newGroups.push(action.payload);
-      return { groups: newGroups };
+      return { ...state, groups: [...state.groups, action.payload] };
 
     case ActionGroupTypes.REMOVE_GROUP:
       newGroups = state.groups.filter((group) => group.id !== action.payload);
