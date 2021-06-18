@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/todo-redux-ts/static/css/main.fb22c4f4.chunk.css",
+    "main.js": "/todo-redux-ts/static/js/main.149f5dda.chunk.js",
+    "main.js.map": "/todo-redux-ts/static/js/main.149f5dda.chunk.js.map",
+    "runtime-main.js": "/todo-redux-ts/static/js/runtime-main.0c5879d2.js",
+    "runtime-main.js.map": "/todo-redux-ts/static/js/runtime-main.0c5879d2.js.map",
+    "static/css/2.ca2931f8.chunk.css": "/todo-redux-ts/static/css/2.ca2931f8.chunk.css",
+    "static/js/2.d555997d.chunk.js": "/todo-redux-ts/static/js/2.d555997d.chunk.js",
+    "static/js/2.d555997d.chunk.js.map": "/todo-redux-ts/static/js/2.d555997d.chunk.js.map",
+    "index.html": "/todo-redux-ts/index.html",
+    "static/css/2.ca2931f8.chunk.css.map": "/todo-redux-ts/static/css/2.ca2931f8.chunk.css.map",
+    "static/css/main.fb22c4f4.chunk.css.map": "/todo-redux-ts/static/css/main.fb22c4f4.chunk.css.map",
+    "static/js/2.d555997d.chunk.js.LICENSE.txt": "/todo-redux-ts/static/js/2.d555997d.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/todo-redux-ts/static/media/roboto-vietnamese-400-normal.52cebac0.woff2"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.0c5879d2.js",
+    "static/css/2.ca2931f8.chunk.css",
+    "static/js/2.d555997d.chunk.js",
+    "static/css/main.fb22c4f4.chunk.css",
+    "static/js/main.149f5dda.chunk.js"
+  ]
+}
