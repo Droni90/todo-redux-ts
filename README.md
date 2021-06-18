@@ -1,6 +1,8 @@
 # Тестовая работа
 
-# Используется: 
+## [GH-PAGES](https://droni90.github.io/todo-redux-ts/)
+
+## Используется: 
 1. React
 2. TypeScript
 3. Redux
