@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { List } from "@material-ui/core";
 import { useTypeSelector } from "../hooks/useTypeSelector";
 import { ITodoModel } from "../interfaces";
 
 import TodoItem from "./TodoItem";
+import { loadTodos } from "../redux/actions/group";
+import { useDispatch } from "react-redux";
 
 interface ITodo {
   id: string;
@@ -15,6 +17,12 @@ const TodoList: React.FC<ITodo> = ({ id, inputSearch, radioValue }) => {
   const groupId = +id;
   const { todoGroups } = useTypeSelector((state) => state.groupsList);
   const todoItems = todoGroups.find((item) => item.id === groupId)?.todoItems;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!todoItems) {
+      dispatch(loadTodos(groupId));
+    }
+  }, []);
 
   return (
     <List>

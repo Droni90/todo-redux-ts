@@ -60,7 +60,7 @@ const Main: React.FC<IMain> = ({ handleRemoveGroup, handleGroupClick }) => {
   const [inputValue, setInputValue] = useState<string>("");
   const { todoGroups } = useTypeSelector((state) => state.groupsList);
 
-  const handleValue = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(evt.target.value);
   };
 
@@ -90,7 +90,7 @@ const Main: React.FC<IMain> = ({ handleRemoveGroup, handleGroupClick }) => {
         <OutlinedInput
           id="component-outlined"
           value={inputValue}
-          onChange={handleValue}
+          onChange={handleInput}
           className={classes.input}
           required={true}
         />

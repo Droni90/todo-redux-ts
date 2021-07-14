@@ -1,12 +1,18 @@
 import React, { useEffect } from "react";
 import Main from "./Main";
 import "fontsource-roboto";
-import { CircularProgress, Container, makeStyles } from "@material-ui/core";
+import {
+  CircularProgress,
+  Container,
+  makeStyles,
+  Snackbar,
+} from "@material-ui/core";
 import TodoPage from "./TodoPage";
 import { Route, Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loadGroups, loadTodos, removeGroup } from "../redux/actions/group";
 import { useTypeSelector } from "../hooks/useTypeSelector";
+import ErrorHandler from "./errorHandler/ErrorHandler";
 
 const useStyles = makeStyles({
   root: {
@@ -48,7 +54,7 @@ const App: React.FC = () => {
 
   return (
     <Container className={classes.root}>
-      {error ? <span className={classes.error}>{error}</span> : null}
+      <ErrorHandler error={error} />
       {isLoading ? (
         <CircularProgress className={classes.spinner} />
       ) : (
