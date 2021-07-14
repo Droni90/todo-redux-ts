@@ -4,18 +4,18 @@ import * as api from "../../utils/Api";
 import * as actions from "../actions/group";
 import { spinnerStart, spinnerStop } from "../actions/totalActions";
 
-function* addGroupSaga(): Generator<StrictEffect> {
-  yield takeLatest(ActionGroupTypes.ADD_GROUP, addGroup);
+function* completeTodoSaga(): Generator<StrictEffect> {
+  yield takeLatest(ActionGroupTypes.COMPLETE_TODO, completeTodo);
 }
-function* addGroup(action: any) {
+function* completeTodo(action: any) {
   yield put(spinnerStart());
   try {
-    const { data } = yield call(api.postGroups, action.payload);
-    yield put(actions.addGroupSuccess(data));
+    const { data } = yield call(api.completeTodo, action.todoId);
+    yield put(actions.completeTodoSuccess(data.id));
   } catch (err) {
-    yield put(actions.addGroupFailure(err.message));
+    yield put(actions.completeTodoFailure(err.message));
   } finally {
     yield put(spinnerStop());
   }
 }
-export default addGroupSaga;
+export default completeTodoSaga;

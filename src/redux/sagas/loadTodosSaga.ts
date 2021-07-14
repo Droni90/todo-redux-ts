@@ -4,20 +4,20 @@ import * as api from "../../utils/Api";
 import * as actions from "../actions/group";
 import { spinnerStart, spinnerStop } from "../actions/totalActions";
 
-export function* loadGroupsSaga(): Generator<StrictEffect> {
-  yield takeLatest(ActionGroupTypes.LOAD_GROUPS, loadGroups);
+export function* loadTodosSaga(): Generator<StrictEffect> {
+  yield takeLatest(ActionGroupTypes.LOAD_TODOS, loadTodos);
 }
 
-function* loadGroups() {
+function* loadTodos(action: any) {
   yield put(spinnerStart());
   try {
-    const { data } = yield call(api.getGroups);
-    yield put(actions.loadGroupsSuccess(data));
+    const { data } = yield call(api.getTodos, action.payload);
+    yield put(actions.loadTodosSuccess(data, action.payload));
   } catch (err) {
-    yield put(actions.loadGroupsFailure(err.message));
+    yield put(actions.loadTodosFailure(err.message));
   } finally {
     yield put(spinnerStop());
   }
 }
 
-export default loadGroupsSaga;
+export default loadTodosSaga;

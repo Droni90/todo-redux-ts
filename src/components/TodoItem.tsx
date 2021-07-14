@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { checkTodo, removeTodo } from "../redux/actions/group";
+import { completeTodo, removeTodo } from "../redux/actions/group";
 import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles({
@@ -20,7 +20,7 @@ interface ITodo {
   todoName: string;
   id: number;
   completed: boolean | undefined;
-  groupId: number;
+  groupId: number
 }
 const TodoItem: React.FC<ITodo> = ({ todoName, id, completed, groupId }) => {
   const classes = useStyles();
@@ -30,7 +30,7 @@ const TodoItem: React.FC<ITodo> = ({ todoName, id, completed, groupId }) => {
   };
 
   const handleCompleteButton = (todoId: number) => {
-    dispatch(checkTodo(todoId, groupId));
+    dispatch(completeTodo(todoId));
   };
   return (
     <ListItem key={id} role={undefined} dense button>

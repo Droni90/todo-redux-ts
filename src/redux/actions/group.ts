@@ -1,39 +1,113 @@
 import { ActionGroupTypes } from "../types/todo";
-import { IGroupList, ITodoList } from "../../interfaces";
+import { IGroupCreateModel, ITodoCreateModel } from "../../interfaces";
 
 export const loadGroups = () => {
   return {
     type: ActionGroupTypes.LOAD_GROUPS,
   };
 };
-export const setGroups = (groups: any) => {
-  return { type: ActionGroupTypes.SET_GROUPS, payload: groups };
+export const loadGroupsSuccess = (groups: any) => {
+  return { type: ActionGroupTypes.LOAD_GROUPS_SUCCESS, payload: groups };
 };
 
-export const addGroup = (group: IGroupList) => {
+export const loadGroupsFailure = (error: string) => {
+  return { type: ActionGroupTypes.LOAD_GROUPS_FAILURE, error };
+};
+
+export const addGroup = (group: IGroupCreateModel) => {
   return { type: ActionGroupTypes.ADD_GROUP, payload: group };
+};
+export const addGroupSuccess = (group: IGroupCreateModel) => {
+  return {
+    type: ActionGroupTypes.ADD_GROUP_SUCCESS,
+    payload: group,
+  };
+};
+export const addGroupFailure = (error: string) => {
+  return { type: ActionGroupTypes.ADD_GROUP_FAILURE, error };
 };
 
 export const removeGroup = (id: number) => {
   return { type: ActionGroupTypes.REMOVE_GROUP, payload: id };
 };
+export const removeGroupSuccess = (id: number) => {
+  return { type: ActionGroupTypes.REMOVE_GROUP_SUCCESS, id };
+};
+export const removeGroupFailure = (error: string) => {
+  return {
+    type: ActionGroupTypes.REMOVE_GROUP_FAILURE,
+    error,
+  };
+};
 
-export const addTodo = (todo: ITodoList, id: number) => {
-  return { type: ActionGroupTypes.ADD_TODO, payload: todo, id };
+export const loadTodos = (groupId: number) => {
+  return {
+    type: ActionGroupTypes.LOAD_TODOS,
+    payload: groupId,
+  };
+};
+export const loadTodosSuccess = (todos: any, id: number) => {
+  return {
+    type: ActionGroupTypes.LOAD_TODOS_SUCCESS,
+    payload: todos,
+    groupId: id,
+  };
+};
+export const loadTodosFailure = (error: string) => {
+  return { type: ActionGroupTypes.LOAD_TODOS_FAILURE, error };
+};
+
+export const addTodo = (todo: ITodoCreateModel, id: number) => {
+  return {
+    type: ActionGroupTypes.ADD_TODO,
+    payload: todo,
+    id,
+  };
+};
+export const addTodoSuccess = (todo: ITodoCreateModel, id: number) => {
+  return {
+    type: ActionGroupTypes.ADD_TODO_SUCCESS,
+    payload: todo,
+    groupId: id,
+  };
+};
+export const addTodoFailure = (error: string) => {
+  return { type: ActionGroupTypes.ADD_TODO_FAILURE, error };
 };
 
 export const removeTodo = (todoId: number, groupId: number) => {
   return {
     type: ActionGroupTypes.REMOVE_TODO,
-    groupId: groupId,
-    todoId: todoId,
+    todoId,
+    groupId,
+  };
+};
+export const removeTodoSuccess = (todoId: number, groupId: number) => {
+  return {
+    type: ActionGroupTypes.REMOVE_TODO_SUCCESS,
+    todoId,
+    groupId,
+  };
+};
+export const removeTodoFailure = (error: string) => {
+  return {
+    type: ActionGroupTypes.REMOVE_TODO_FAILURE,
+    error,
   };
 };
 
-export const checkTodo = (todoId: number, groupId: number) => {
+export const completeTodo = (todoId: number) => {
   return {
-    type: ActionGroupTypes.CHECK_TODO,
-    groupId: groupId,
+    type: ActionGroupTypes.COMPLETE_TODO,
     todoId: todoId,
+  };
+};
+export const completeTodoSuccess = (id: number) => {
+  return { type: ActionGroupTypes.COMPLETE_TODO_SUCCESS, id };
+};
+export const completeTodoFailure = (error: string) => {
+  return {
+    type: ActionGroupTypes.COMPLETE_TODO_FAILURE,
+    error,
   };
 };

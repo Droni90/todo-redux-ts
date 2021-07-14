@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { List } from "@material-ui/core";
 import { useTypeSelector } from "../hooks/useTypeSelector";
-import { ITodoList } from "../interfaces";
+import { ITodoModel } from "../interfaces";
 
 import TodoItem from "./TodoItem";
 
@@ -12,25 +12,22 @@ interface ITodo {
 }
 
 const TodoList: React.FC<ITodo> = ({ id, inputSearch, radioValue }) => {
-  const { groups } = useTypeSelector((state) => state.groupsList);
   const groupId = +id;
-
-  const todos = useMemo(() => {
-    return groups.find((item) => item.id === groupId).todos;
-  }, [groups]);
+  const { todoGroups } = useTypeSelector((state) => state.groupsList);
+  const todoItems = todoGroups.find((item) => item.id === groupId)?.todoItems;
 
   return (
     <List>
-      {todos.length ? (
-        todos.map(({ todoName, id, completed }: ITodoList) => {
+      {todoItems?.length ? (
+        todoItems?.map(({ todoName, id, isCompleted }: ITodoModel) => {
           if (!inputSearch && radioValue === "All") {
             return (
               <TodoItem
                 todoName={todoName}
                 id={id}
-                groupId={groupId}
-                completed={completed}
+                completed={isCompleted}
                 key={id}
+                groupId={groupId}
               />
             );
           }
@@ -39,19 +36,19 @@ const TodoList: React.FC<ITodo> = ({ id, inputSearch, radioValue }) => {
               <TodoItem
                 todoName={todoName}
                 id={id}
-                completed={completed}
+                completed={isCompleted}
                 groupId={groupId}
                 key={id}
               />
             );
           }
-          if (radioValue === "Undone" && !completed) {
+          if (radioValue === "Undone" && !isCompleted) {
             return (
               <TodoItem
                 todoName={todoName}
-                id={id}
-                completed={completed}
                 groupId={groupId}
+                id={id}
+                completed={isCompleted}
                 key={id}
               />
             );

@@ -6,7 +6,7 @@ import {
   makeStyles,
   OutlinedInput,
 } from "@material-ui/core";
-import { IGroupList } from "../interfaces";
+import { IGroupCreateModel } from "../interfaces";
 import GroupsList from "./GroupsList";
 import { useDispatch } from "react-redux";
 import { useTypeSelector } from "../hooks/useTypeSelector";
@@ -44,17 +44,21 @@ const useStyles = makeStyles({
   subtitle: {
     marginTop: "50%",
   },
+  error: {
+    color: "red",
+  },
 });
 
 interface IMain {
   handleGroupClick: (id: number) => void;
+  handleRemoveGroup: (evt: React.SyntheticEvent, id: number) => void;
 }
 
-const Main: React.FC<IMain> = ({ handleGroupClick }) => {
+const Main: React.FC<IMain> = ({ handleRemoveGroup, handleGroupClick }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState<string>("");
-  const groups = useTypeSelector((state) => state.groupsList.groups);
+  const { todoGroups } = useTypeSelector((state) => state.groupsList);
 
   const handleValue = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(evt.target.value);
@@ -62,11 +66,8 @@ const Main: React.FC<IMain> = ({ handleGroupClick }) => {
 
   const handleAddGroupSubmit = (evt: React.FormEvent) => {
     evt.preventDefault();
-    const arr: any[] = [];
-    const newGroup: IGroupList = {
+    const newGroup: IGroupCreateModel = {
       groupName: inputValue,
-      id: Date.now(),
-      todos: arr,
     };
     dispatch(addGroup(newGroup));
     setInputValue("");
@@ -76,8 +77,11 @@ const Main: React.FC<IMain> = ({ handleGroupClick }) => {
     <Container className={classes.roof}>
       <Box className={classes.box}>
         <h1>ToDo groups</h1>
-        {groups.length ? (
-          <GroupsList handleGroupClick={handleGroupClick} />
+        {todoGroups.length ? (
+          <GroupsList
+            handleGroupClick={handleGroupClick}
+            handleRemoveGroup={handleRemoveGroup}
+          />
         ) : (
           <h2 className={classes.subtitle}>У вас нет дел</h2>
         )}

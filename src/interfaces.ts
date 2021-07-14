@@ -1,11 +1,22 @@
-export interface IGroupList {
+export interface IGroupModel {
   groupName: string;
   id: number;
-  todos: any[];
-  currentId?: number;
+  todoItems?: ITodoModel[];
+  totalCount: number;
+  completedCount: number;
 }
-export interface ITodoList {
+
+export interface IGroupCreateModel {
+  groupName: string;
+}
+
+export interface ITodoModel {
   todoName: string;
   id: number;
-  completed?: boolean;
+  isCompleted: boolean;
+}
+
+export interface ITodoCreateModel {
+  todoName: string;
+  isCompleted: boolean;
 }

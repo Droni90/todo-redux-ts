@@ -4,6 +4,8 @@ import addGroupSaga from "./addGroupSaga";
 import removeGroupSaga from "./removeGroupSaga";
 import addTodoSaga from "./addTodoSaga";
 import removeTodoSaga from "./removeTodoSaga";
+import loadTodosSaga from "./loadTodosSaga";
+import completeTodoSaga from "./completeTodoSaga";
 
 export default function* rootSaga() {
   yield all([
@@ -12,5 +14,7 @@ export default function* rootSaga() {
     removeGroupSaga(),
     addTodoSaga(),
     removeTodoSaga(),
+    loadTodosSaga(),
+    completeTodoSaga()
   ]);
 }

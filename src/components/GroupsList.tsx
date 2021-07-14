@@ -10,9 +10,6 @@ import {
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useTypeSelector } from "../hooks/useTypeSelector";
 import { Link } from "react-router-dom";
-import { removeGroup } from "../redux/actions/group";
-import { useDispatch } from "react-redux";
-import { ITodoList } from "../interfaces";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,48 +31,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 interface IGroupsList {
   handleGroupClick: (id: number) => void;
+  handleRemoveGroup: (evt: React.SyntheticEvent, id: number) => void;
 }
-const GroupsList: React.FC<IGroupsList> = ({ handleGroupClick }) => {
+const GroupsList: React.FC<IGroupsList> = ({
+  handleRemoveGroup,
+  handleGroupClick,
+}) => {
   const classes = useStyles();
-  const groups = useTypeSelector((state) => state.groupsList.groups);
-  const dispatch = useDispatch();
-
-  const handleRemove = (evt: React.SyntheticEvent, id: number) => {
-    evt.preventDefault();
-    dispatch(removeGroup(id));
-  };
-
-  const countTodos = (id: number) => {
-    let count;
-    groups.forEach((group) => {
-      if (group.id === id) {
-        count = group.todos.length;
-      }
-    });
-    return count;
-  };
-
-  const countCompletedTodos = (id: number) => {
-    let count = 0;
-    groups.forEach((group) => {
-      if (group.id === id) {
-        group.todos.forEach((todo: ITodoList) => {
-          if (todo.completed) {
-            count++;
-          }
-        });
-      }
-    });
-    return count;
-  };
+  const todoGroups = useTypeSelector((state) => state.groupsList.todoGroups);
 
   return (
     <List className={classes.root}>
-      {groups.map(({ groupName, id }) => {
+      {todoGroups.map(({ groupName, id, totalCount, completedCount }) => {
         return (
-          <Link className={classes.link} to={`/group/${id}`}>
+          <Link key={id} className={classes.link} to={`/group/${id}`}>
             <ListItem
-              key={id}
               role={undefined}
               className={classes.listItem}
               onClick={() => handleGroupClick(id)}
@@ -84,13 +54,10 @@ const GroupsList: React.FC<IGroupsList> = ({ handleGroupClick }) => {
             >
               <ListItemText
                 className={classes.text}
-                primary={`${groupName} (${countCompletedTodos(
-                  id
-                )} / ${countTodos(id)})`}
+                primary={`${groupName} (${completedCount} / ${totalCount})`}
               />
-
               <ListItemSecondaryAction>
-                <IconButton onClick={(evt) => handleRemove(evt, id)}>
+                <IconButton onClick={(evt) => handleRemoveGroup(evt, id)}>
                   <DeleteIcon />
                 </IconButton>
               </ListItemSecondaryAction>

@@ -5988,7 +5988,7 @@
   "resolved" "https://registry.npmjs.org/http-parser-js/-/http-parser-js-0.5.3.tgz"
   "version" "0.5.3"
 
-"http-proxy-middleware@0.19.1":
+"http-proxy-middleware@^0.19.1", "http-proxy-middleware@0.19.1":
   "integrity" "sha512-yHYTgWMQO8VvwNS22eLLloAkvungsKdKTLO8AJlftYIKNfJr3GK3zK0ZCfzDDGUBttdGc8xFy1mCitvNKQtC3Q=="
   "resolved" "https://registry.npmjs.org/http-proxy-middleware/-/http-proxy-middleware-0.19.1.tgz"
   "version" "0.19.1"
@@ -11674,7 +11674,7 @@
   "resolved" "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz"
   "version" "0.0.6"
 
-"typesafe-actions@1.0.0":
+"typesafe-actions@^1.0.0", "typesafe-actions@1.0.0":
   "integrity" "sha512-L7wXh1nm07KjmE3nej0NJNHx5/Bc6Q7fIazfnqHkP97WLieEDBxXDCeMT98KSrtwbCneO14xQXokEPuW9sNG5w=="
   "resolved" "https://registry.npmjs.org/typesafe-actions/-/typesafe-actions-1.0.0.tgz"
   "version" "1.0.0"

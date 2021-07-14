@@ -1,8 +1,8 @@
 import { ActionGroupTypes, GroupAction, GroupsState } from "../../types/todo";
-import { ITodoList } from "../../../interfaces";
+import { ITodoModel } from "../../../interfaces";
 
 const initialState: GroupsState = {
-  groups: [],
+  todoGroups: [],
 };
 
 export const groupsList = (
@@ -11,48 +11,98 @@ export const groupsList = (
 ): GroupsState => {
   let newGroups;
   switch (action.type) {
-    case ActionGroupTypes.SET_GROUPS:
-      return { ...state, groups: action.payload };
+    case ActionGroupTypes.LOAD_GROUPS_SUCCESS:
+      return {
+        ...state,
+        todoGroups: action.payload,
+        error: "",
+      };
 
-    case ActionGroupTypes.ADD_GROUP:
-      return { ...state, groups: [...state.groups, action.payload] };
+    case ActionGroupTypes.LOAD_GROUPS_FAILURE:
+      return { ...state, error: action.error };
 
-    case ActionGroupTypes.REMOVE_GROUP:
-      newGroups = state.groups.filter((group) => group.id !== action.payload);
-      return { groups: newGroups };
+    case ActionGroupTypes.ADD_GROUP_SUCCESS:
+      return {
+        ...state,
+        todoGroups: [...state.todoGroups, action.payload],
+        error: "",
+      };
+    case ActionGroupTypes.ADD_GROUP_FAILURE:
+      return { ...state, error: action.error };
 
-    case ActionGroupTypes.ADD_TODO:
-      newGroups = [...state.groups].map((item) => {
-        if (item.id === +action.id) {
-          item.todos.push(action.payload);
+    case ActionGroupTypes.REMOVE_GROUP_SUCCESS:
+      newGroups = state.todoGroups.filter((group) => group.id !== action.id);
+      return { ...state, todoGroups: newGroups, error: "" };
+    case ActionGroupTypes.REMOVE_GROUP_FAILURE:
+      return { ...state, error: action.error };
+
+    case ActionGroupTypes.LOAD_TODOS_SUCCESS:
+      newGroups = state.todoGroups.map((item) => {
+        if (item.id === action.groupId) {
+          item.todoItems = action.payload;
         }
         return item;
       });
-      return { groups: newGroups };
+      return {
+        ...state,
+        todoGroups: newGroups,
+        error: "",
+      };
+    case ActionGroupTypes.LOAD_TODOS_FAILURE:
+      return { ...state, error: action.error };
 
-    case ActionGroupTypes.REMOVE_TODO:
-      newGroups = [...state.groups].map((item) => {
+    case ActionGroupTypes.ADD_TODO_SUCCESS:
+      newGroups = state.todoGroups.map((item) => {
         if (item.id === action.groupId) {
-          item.todos = item.todos.filter(
-            (todo: ITodoList) => todo.id !== action.todoId
-          );
+          item.todoItems?.push(action.payload);
+          item.totalCount += 1;
         }
         return item;
       });
-      return { groups: newGroups };
+      return { ...state, todoGroups: newGroups, error: "" };
+    case ActionGroupTypes.ADD_TODO_FAILURE:
+      return { ...state, error: action.error };
 
-    case ActionGroupTypes.CHECK_TODO:
-      newGroups = [...state.groups].map((item) => {
+    case ActionGroupTypes.REMOVE_TODO_SUCCESS:
+      newGroups = [...state.todoGroups].map((item) => {
         if (item.id === action.groupId) {
-          item.todos.forEach((todo: ITodoList) => {
-            if (todo.id === action.todoId) {
-              todo.completed = !todo.completed;
+          item.totalCount -= 1;
+          item.todoItems?.forEach((todo) => {
+            if (todo.id === action.todoId && todo.isCompleted) {
+              item.completedCount -= 1;
             }
           });
         }
+        item.todoItems = item.todoItems?.filter(
+          (todo: ITodoModel) => todo.id !== action.todoId
+        );
         return item;
       });
-      return { groups: newGroups };
+      return { ...state, todoGroups: newGroups, error: "" };
+    case ActionGroupTypes.REMOVE_TODO_FAILURE:
+      return { ...state, error: action.error };
+
+    case ActionGroupTypes.COMPLETE_TODO_SUCCESS:
+      newGroups = [...state.todoGroups].map((item) => {
+        item.todoItems?.forEach((todo: ITodoModel) => {
+          if (todo.id === action.id) {
+            todo.isCompleted = !todo.isCompleted;
+            todo.isCompleted
+              ? (item.completedCount += 1)
+              : (item.completedCount -= 1);
+          }
+        });
+        return item;
+      });
+      return { ...state, todoGroups: newGroups, error: "" };
+    case ActionGroupTypes.COMPLETE_TODO_FAILURE:
+      return { ...state, error: action.error };
+
+    case ActionGroupTypes.SPINNER_START:
+      return { ...state, isLoading: true };
+
+    case ActionGroupTypes.SPINNER_STOP:
+      return { ...state, isLoading: false };
 
     default:
       return state;

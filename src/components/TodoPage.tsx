@@ -12,7 +12,7 @@ import { Link, useRouteMatch } from "react-router-dom";
 import { addTodo } from "../redux/actions/group";
 import { useDispatch } from "react-redux";
 import TodoList from "./TodoList";
-import { ITodoList } from "../interfaces";
+import { ITodoCreateModel } from "../interfaces";
 
 const useStyles = makeStyles({
   roof: {
@@ -38,12 +38,12 @@ const TodoPage: React.FC = () => {
   const classes = useStyles();
   const match = useRouteMatch("/group/:id");
   const { id }: any = match!.params;
-
   const [inputSearch, setInputSearch] = useState<string>("");
   const [inputTodo, setInputTodo] = useState<string>("");
   const [radioValue, setRadioValue] = React.useState("All");
 
   const dispatch = useDispatch();
+
   const handleSearchInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setInputSearch(evt.target.value);
   };
@@ -58,7 +58,10 @@ const TodoPage: React.FC = () => {
 
   const onEnter = (evt: React.KeyboardEvent) => {
     if (evt.key === "Enter" && inputTodo) {
-      const newGroup: ITodoList = { todoName: inputTodo, id: Date.now() };
+      const newGroup: ITodoCreateModel = {
+        todoName: inputTodo,
+        isCompleted: false,
+      };
       dispatch(addTodo(newGroup, id));
       setInputTodo("");
     }
