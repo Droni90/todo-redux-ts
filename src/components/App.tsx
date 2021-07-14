@@ -16,8 +16,9 @@ const useStyles = makeStyles({
     alignItems: "center",
   },
   spinner: {
-    marginLeft: "50%",
-    marginTop: "50%",
+    position: "absolute",
+    top: "40%",
+    left: "50%",
   },
   error: {
     position: "absolute",
