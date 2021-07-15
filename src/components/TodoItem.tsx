@@ -16,17 +16,18 @@ const useStyles = makeStyles({
     textDecoration: "line-through",
   },
 });
+
 interface ITodo {
   todoName: string;
   id: number;
   completed: boolean | undefined;
-  groupId: number
+  groupId: number;
 }
 const TodoItem: React.FC<ITodo> = ({ todoName, id, completed, groupId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const handleRemoveButton = (todoId: number) => {
-    dispatch(removeTodo(todoId, groupId));
+    dispatch(removeTodo({ groupId, todoId }));
   };
 
   const handleCompleteButton = (todoId: number) => {

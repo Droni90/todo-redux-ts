@@ -1,11 +1,15 @@
 import * as errorHandler from "./actions";
-import { getType } from "typesafe-actions";
+import { ActionType, getType } from "typesafe-actions";
+import * as error from "./actions";
 
 const initialState = {
   error: "",
 };
 
-export const errors = (state = initialState, action: any) => {
+export const errors = (
+  state = initialState,
+  action: ActionType<typeof error>
+) => {
   switch (action.type) {
     case getType(errorHandler.getError):
       return { ...state, error: action.payload };

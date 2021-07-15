@@ -1,14 +1,14 @@
 import { takeLatest, call, StrictEffect, put } from "redux-saga/effects";
 import * as api from "../../utils/Api";
 import * as todoGroupActions from "../actions/group";
-import { spinnerStart, spinnerStop } from "../actions/totalActions";
+import { spinnerStart, spinnerStop } from "../actions/group";
 import { getError } from "../../components/errorHandler/actions";
 import { getType } from "typesafe-actions";
 
 function* removeGroupSaga(): Generator<StrictEffect> {
   yield takeLatest(getType(todoGroupActions.removeGroup), removeGroup);
 }
-function* removeGroup(action: any) {
+function* removeGroup(action: ReturnType<typeof todoGroupActions.removeGroup>) {
   yield put(spinnerStart());
   try {
     const { data } = yield call(api.removeGroup, { id: action.payload });

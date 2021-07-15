@@ -4,13 +4,15 @@ import * as api from "../../utils/Api";
 import * as todoGroupActions from "../actions/group";
 import { getError } from "../../components/errorHandler/actions";
 
-import { spinnerStart, spinnerStop } from "../actions/totalActions";
+import { spinnerStart, spinnerStop } from "../actions/group";
 import { getType } from "typesafe-actions";
 
 function* addGroupSaga(): Generator<StrictEffect> {
   yield takeLatest(getType(todoGroupActions.addGroup), addGroup);
 }
-function* addGroup(action: any) {
+function* addGroup(
+  action: ReturnType<typeof todoGroupActions.addGroupSuccess>
+) {
   yield put(spinnerStart());
   try {
     const { data } = yield call(api.postGroups, action.payload);

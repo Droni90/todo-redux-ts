@@ -21,7 +21,7 @@ export interface ITodoCreateModel {
   isCompleted: boolean;
 }
 
-export interface GroupsState {
+export interface IGroupsState {
   todoGroups: IGroupModel[];
   isLoading?: boolean;
   error?: string;

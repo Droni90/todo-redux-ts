@@ -29,7 +29,7 @@ const ErrorHandler: React.FC<IErrorHandler> = ({ error }) => {
     if (error) setOpen(true);
   }, [error]);
 
-  const handleClose = (event: any, reason: string) => {
+  const handleClose = (event: React.SyntheticEvent, reason: string) => {
     if (reason === "clickaway") {
       return;
     }

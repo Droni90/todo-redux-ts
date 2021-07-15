@@ -2,7 +2,7 @@ import { takeLatest, put, call, StrictEffect } from "redux-saga/effects";
 
 import * as api from "../../utils/Api";
 import * as todoGroupActions from "../actions/group";
-import { spinnerStart, spinnerStop } from "../actions/totalActions";
+import { spinnerStart, spinnerStop } from "../actions/group";
 import * as errorActions from "../../components/errorHandler/actions";
 import { getType } from "typesafe-actions";
 

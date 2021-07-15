@@ -37,13 +37,16 @@ const useStyles = makeStyles({
 const TodoPage: React.FC = () => {
   const classes = useStyles();
   const match = useRouteMatch("/group/:id");
-  const { id }: any = match!.params;
+
   const [inputSearch, setInputSearch] = useState<string>("");
   const [inputTodo, setInputTodo] = useState<string>("");
   const [radioValue, setRadioValue] = React.useState("All");
 
   const dispatch = useDispatch();
-
+  const { id }: { id?: string } = match!.params;
+  if (!id) {
+    return null;
+  }
   const handleSearchInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setInputSearch(evt.target.value);
   };
@@ -62,7 +65,8 @@ const TodoPage: React.FC = () => {
         todoName: inputTodo,
         isCompleted: false,
       };
-      dispatch(addTodo(newGroup, id));
+      const inNum: number = +(id || 0);
+      dispatch(addTodo({ model: newGroup, id: +id }));
       setInputTodo("");
     }
   };
