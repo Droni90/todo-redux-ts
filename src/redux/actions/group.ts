@@ -1,82 +1,60 @@
-import { ActionGroupTypes } from "../types/todo";
-import { IGroupCreateModel, ITodoCreateModel } from "../../interfaces";
+import {
+  IGroupCreateModel,
+  IGroupModel,
+  ITodoCreateModel,
+  ITodoModel,
+} from "../../interfaces";
+import { createAction } from "typesafe-actions";
 
-export const loadGroups = () => {
-  return {
-    type: ActionGroupTypes.LOAD_GROUPS,
-  };
-};
-export const loadGroupsSuccess = (groups: any) => {
-  return { type: ActionGroupTypes.LOAD_GROUPS_SUCCESS, payload: groups };
-};
+export const loadGroups = createAction("todoGroup/LOAD_GROUPS")();
 
-export const addGroup = (group: IGroupCreateModel) => {
-  return { type: ActionGroupTypes.ADD_GROUP, payload: group };
-};
-export const addGroupSuccess = (group: IGroupCreateModel) => {
-  return {
-    type: ActionGroupTypes.ADD_GROUP_SUCCESS,
-    payload: group,
-  };
-};
+export const loadGroupsSuccess = createAction(
+  "todoGroup/LOAD_GROUPS_SUCCESS"
+)<IGroupModel>();
 
-export const removeGroup = (id: number) => {
-  return { type: ActionGroupTypes.REMOVE_GROUP, payload: id };
-};
-export const removeGroupSuccess = (id: number) => {
-  return { type: ActionGroupTypes.REMOVE_GROUP_SUCCESS, id };
-};
+export const addGroup = createAction(
+  "todoGroup/ADD_GROUP"
+)<IGroupCreateModel>();
 
-export const loadTodos = (groupId: number) => {
-  return {
-    type: ActionGroupTypes.LOAD_TODOS,
-    payload: groupId,
-  };
-};
-export const loadTodosSuccess = (todos: any, id: number) => {
-  return {
-    type: ActionGroupTypes.LOAD_TODOS_SUCCESS,
-    payload: todos,
-    groupId: id,
-  };
-};
+export const addGroupSuccess = createAction(
+  "todoGroup/ADD_GROUP_SUCCESS"
+)<IGroupCreateModel>();
 
-export const addTodo = (todo: ITodoCreateModel, id: number) => {
-  return {
-    type: ActionGroupTypes.ADD_TODO,
-    payload: todo,
-    id,
-  };
-};
-export const addTodoSuccess = (todo: ITodoCreateModel, id: number) => {
-  return {
-    type: ActionGroupTypes.ADD_TODO_SUCCESS,
-    payload: todo,
-    groupId: id,
-  };
-};
+export const removeGroup = createAction("todoGroup/REMOVE_GROUP")<number>();
 
-export const removeTodo = (todoId: number, groupId: number) => {
-  return {
-    type: ActionGroupTypes.REMOVE_TODO,
-    todoId,
-    groupId,
-  };
-};
-export const removeTodoSuccess = (todoId: number, groupId: number) => {
-  return {
-    type: ActionGroupTypes.REMOVE_TODO_SUCCESS,
-    todoId,
-    groupId,
-  };
-};
+export const removeGroupSuccess = createAction(
+  "todoGroup/REMOVE_GROUP_SUCCESS"
+)<number>();
 
-export const completeTodo = (todoId: number) => {
-  return {
-    type: ActionGroupTypes.COMPLETE_TODO,
-    todoId: todoId,
-  };
-};
-export const completeTodoSuccess = (id: number) => {
-  return { type: ActionGroupTypes.COMPLETE_TODO_SUCCESS, id };
-};
+export const loadTodos = createAction("todoGroup/LOAD_TODOS")<number>();
+
+export const loadTodosSuccess = createAction("todoGroup/LOAD_TODOS_SUCCESS")<
+  ITodoModel,
+  number
+>();
+
+export const addTodo = createAction("todoGroup/ADD_TODO")<
+  ITodoCreateModel,
+  number
+>();
+
+export const addTodoSuccess = createAction("todoGroup/ADD_TODO_SUCCESS")<
+  ITodoCreateModel,
+  number
+>();
+
+export const removeTodo = createAction("todoGroup/REMOVE_TODO")<
+  number,
+  number
+>();
+
+export const removeTodoSuccess = createAction("todoGroup/REMOVE_TODO_SUCCESS")<
+  number,
+  number
+>();
+
+export const completeTodo = createAction("todoGroup/COMPLETE_TODO")<number>();
+
+export const completeTodoSuccess = createAction(
+  "todoGroup/COMPLETE_TODO_SUCCESS"
+)<number>();

@@ -1,15 +1,4 @@
-import { ActionTypes } from "./types";
+import { createAction } from "typesafe-actions";
 
-export const getError = (error: string) => {
-  return {
-    type: ActionTypes.GET_ERROR,
-    error: error,
-  };
-};
-
-export const clearError = () => {
-  return {
-    type: ActionTypes.CLEAR_ERROR,
-    error: "",
-  };
-};
+export const getError = createAction("errorHandler/GET_ERROR")<string>();
+export const clearError = createAction("errorHandler/CLEAR_ERROR")<string>();

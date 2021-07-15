@@ -1,19 +1,18 @@
 import { takeLatest, call, put, StrictEffect } from "redux-saga/effects";
-import { ActionGroupTypes } from "../types/todo";
 import * as api from "../../utils/Api";
-import * as actions from "../actions/group";
+import * as todoActions from "../actions/group";
 import { getError } from "../../components/errorHandler/actions";
 import { spinnerStart, spinnerStop } from "../actions/totalActions";
 
 function* addTodoSaga(): Generator<StrictEffect> {
-  yield takeLatest(ActionGroupTypes.ADD_TODO, addTodo);
+  yield takeLatest(todoActions.addTodo, addTodo);
 }
 
 function* addTodo(action: any) {
   yield put(spinnerStart());
   try {
-    const { data } = yield call(api.postTodo, action.payload, action.id);
-    yield put(actions.addTodoSuccess(data, +action.id));
+    const { data } = yield call(api.postTodo, action.payload, action.meta);
+    yield put(todoActions.addTodoSuccess(data, +action.meta));
   } catch (err) {
     yield put(getError(err.message));
   } finally {

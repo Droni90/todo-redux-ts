@@ -1,18 +1,17 @@
-import { ActionTypes, IErrors, GroupAction } from "./types";
+import * as errorHandler from "./actions";
+import { getType } from "typesafe-actions";
 
-const initialState: IErrors = {
+const initialState = {
   error: "",
 };
 
-export const errors = (
-  state: IErrors = initialState,
-  action: GroupAction
-): IErrors => {
+export const errors = (state = initialState, action: any) => {
   switch (action.type) {
-    case ActionTypes.GET_ERROR:
-      return { ...state, error: action.error };
-    case ActionTypes.CLEAR_ERROR:
-      return { ...state, error: "" };
+    case getType(errorHandler.getError):
+      return { ...state, error: action.payload };
+
+    case getType(errorHandler.clearError):
+      return { ...state, error: action.payload };
 
     default:
       return state;

@@ -1,19 +1,20 @@
 import { takeLatest, call, put, StrictEffect } from "redux-saga/effects";
-import { ActionGroupTypes } from "../types/todo";
+
 import * as api from "../../utils/Api";
-import * as actions from "../actions/group";
-import { getError, clearError } from "../../components/errorHandler/actions";
+import * as todoGroupActions from "../actions/group";
+import { getError } from "../../components/errorHandler/actions";
 
 import { spinnerStart, spinnerStop } from "../actions/totalActions";
+import { getType } from "typesafe-actions";
 
 function* addGroupSaga(): Generator<StrictEffect> {
-  yield takeLatest(ActionGroupTypes.ADD_GROUP, addGroup);
+  yield takeLatest(getType(todoGroupActions.addGroup), addGroup);
 }
 function* addGroup(action: any) {
   yield put(spinnerStart());
   try {
     const { data } = yield call(api.postGroups, action.payload);
-    yield put(actions.addGroupSuccess(data));
+    yield put(todoGroupActions.addGroupSuccess(data));
   } catch (err) {
     yield put(getError(err.message));
   } finally {

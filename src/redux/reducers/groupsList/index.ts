@@ -1,5 +1,7 @@
-import { ActionGroupTypes, GroupAction, GroupsState } from "../../types/todo";
-import { ITodoModel } from "../../../interfaces";
+import { GroupsState, ITodoModel } from "../../../interfaces";
+import * as actions from "../../actions/group";
+import { getType } from "typesafe-actions";
+import { spinnerStart, spinnerStop } from "../../actions/totalActions";
 
 const initialState: GroupsState = {
   todoGroups: [],
@@ -7,31 +9,34 @@ const initialState: GroupsState = {
 
 export const groupsList = (
   state: GroupsState = initialState,
-  action: GroupAction
+  action: any
 ): GroupsState => {
   let newGroups;
   switch (action.type) {
-    case ActionGroupTypes.LOAD_GROUPS_SUCCESS:
+    case getType(actions.loadGroupsSuccess):
       return {
         ...state,
         todoGroups: action.payload,
         error: "",
       };
 
-    case ActionGroupTypes.ADD_GROUP_SUCCESS:
+    case getType(actions.addGroupSuccess):
       return {
         ...state,
         todoGroups: [...state.todoGroups, action.payload],
         error: "",
       };
 
-    case ActionGroupTypes.REMOVE_GROUP_SUCCESS:
-      newGroups = state.todoGroups.filter((group) => group.id !== action.id);
+    case getType(actions.removeGroupSuccess):
+      newGroups = state.todoGroups.filter(
+        (group) => group.id !== action.payload
+      );
       return { ...state, todoGroups: newGroups, error: "" };
 
-    case ActionGroupTypes.LOAD_TODOS_SUCCESS:
+    case getType(actions.loadTodosSuccess):
+      console.log(actions);
       newGroups = state.todoGroups.map((item) => {
-        if (item.id === action.groupId) {
+        if (item.id === action.meta) {
           item.todoItems = action.payload;
         }
         return item;
@@ -42,9 +47,9 @@ export const groupsList = (
         error: "",
       };
 
-    case ActionGroupTypes.ADD_TODO_SUCCESS:
+    case getType(actions.addTodoSuccess):
       newGroups = state.todoGroups.map((item) => {
-        if (item.id === action.groupId) {
+        if (item.id === action.meta) {
           item.todoItems?.push(action.payload);
           item.totalCount += 1;
         }
@@ -52,27 +57,28 @@ export const groupsList = (
       });
       return { ...state, todoGroups: newGroups, error: "" };
 
-    case ActionGroupTypes.REMOVE_TODO_SUCCESS:
+    case getType(actions.removeTodoSuccess):
       newGroups = [...state.todoGroups].map((item) => {
-        if (item.id === action.groupId) {
+        if (item.id === action.meta) {
+          console.log("sss");
           item.totalCount -= 1;
           item.todoItems?.forEach((todo) => {
-            if (todo.id === action.todoId && todo.isCompleted) {
+            if (todo.id === action.payload && todo.isCompleted) {
               item.completedCount -= 1;
             }
           });
         }
         item.todoItems = item.todoItems?.filter(
-          (todo: ITodoModel) => todo.id !== action.todoId
+          (todo: ITodoModel) => todo.id !== action.payload
         );
         return item;
       });
       return { ...state, todoGroups: newGroups, error: "" };
 
-    case ActionGroupTypes.COMPLETE_TODO_SUCCESS:
+    case getType(actions.completeTodoSuccess):
       newGroups = [...state.todoGroups].map((item) => {
         item.todoItems?.forEach((todo: ITodoModel) => {
-          if (todo.id === action.id) {
+          if (todo.id === action.payload) {
             todo.isCompleted = !todo.isCompleted;
             todo.isCompleted
               ? (item.completedCount += 1)
@@ -83,10 +89,10 @@ export const groupsList = (
       });
       return { ...state, todoGroups: newGroups, error: "" };
 
-    case ActionGroupTypes.SPINNER_START:
+    case getType(spinnerStart):
       return { ...state, isLoading: true };
 
-    case ActionGroupTypes.SPINNER_STOP:
+    case getType(spinnerStop):
       return { ...state, isLoading: false };
 
     default:
