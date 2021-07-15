@@ -23,6 +23,7 @@ const useStyles = makeStyles({
   },
   spinner: {
     position: "absolute",
+    zIndex: 500,
     top: "40%",
     left: "50%",
   },
@@ -37,7 +38,7 @@ const useStyles = makeStyles({
 const App: React.FC = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const { isLoading, error } = useTypeSelector((state) => state.groupsList);
+  const { groupsList, errors } = useTypeSelector((state) => state);
 
   const handleGroupClick = (id: number) => {
     dispatch(loadTodos(id));
@@ -54,22 +55,21 @@ const App: React.FC = () => {
 
   return (
     <Container className={classes.root}>
-      <ErrorHandler error={error} />
-      {isLoading ? (
+      <ErrorHandler error={errors.error} />
+      {groupsList.isLoading ? (
         <CircularProgress className={classes.spinner} />
-      ) : (
-        <Switch>
-          <Route exact path="/">
-            <Main
-              handleGroupClick={handleGroupClick}
-              handleRemoveGroup={handleRemoveGroup}
-            />
-          </Route>
-          <Route path="/group/:id">
-            <TodoPage />
-          </Route>
-        </Switch>
-      )}
+      ) : null}
+      <Switch>
+        <Route exact path="/">
+          <Main
+            handleGroupClick={handleGroupClick}
+            handleRemoveGroup={handleRemoveGroup}
+          />
+        </Route>
+        <Route path="/group/:id">
+          <TodoPage />
+        </Route>
+      </Switch>
     </Container>
   );
 };

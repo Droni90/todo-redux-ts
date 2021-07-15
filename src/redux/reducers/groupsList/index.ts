@@ -18,23 +18,16 @@ export const groupsList = (
         error: "",
       };
 
-    case ActionGroupTypes.LOAD_GROUPS_FAILURE:
-      return { ...state, error: action.error };
-
     case ActionGroupTypes.ADD_GROUP_SUCCESS:
       return {
         ...state,
         todoGroups: [...state.todoGroups, action.payload],
         error: "",
       };
-    case ActionGroupTypes.ADD_GROUP_FAILURE:
-      return { ...state, error: action.error };
 
     case ActionGroupTypes.REMOVE_GROUP_SUCCESS:
       newGroups = state.todoGroups.filter((group) => group.id !== action.id);
       return { ...state, todoGroups: newGroups, error: "" };
-    case ActionGroupTypes.REMOVE_GROUP_FAILURE:
-      return { ...state, error: action.error };
 
     case ActionGroupTypes.LOAD_TODOS_SUCCESS:
       newGroups = state.todoGroups.map((item) => {
@@ -48,8 +41,6 @@ export const groupsList = (
         todoGroups: newGroups,
         error: "",
       };
-    case ActionGroupTypes.LOAD_TODOS_FAILURE:
-      return { ...state, error: action.error };
 
     case ActionGroupTypes.ADD_TODO_SUCCESS:
       newGroups = state.todoGroups.map((item) => {
@@ -60,8 +51,6 @@ export const groupsList = (
         return item;
       });
       return { ...state, todoGroups: newGroups, error: "" };
-    case ActionGroupTypes.ADD_TODO_FAILURE:
-      return { ...state, error: action.error };
 
     case ActionGroupTypes.REMOVE_TODO_SUCCESS:
       newGroups = [...state.todoGroups].map((item) => {
@@ -79,8 +68,6 @@ export const groupsList = (
         return item;
       });
       return { ...state, todoGroups: newGroups, error: "" };
-    case ActionGroupTypes.REMOVE_TODO_FAILURE:
-      return { ...state, error: action.error };
 
     case ActionGroupTypes.COMPLETE_TODO_SUCCESS:
       newGroups = [...state.todoGroups].map((item) => {
@@ -95,8 +82,6 @@ export const groupsList = (
         return item;
       });
       return { ...state, todoGroups: newGroups, error: "" };
-    case ActionGroupTypes.COMPLETE_TODO_FAILURE:
-      return { ...state, error: action.error };
 
     case ActionGroupTypes.SPINNER_START:
       return { ...state, isLoading: true };

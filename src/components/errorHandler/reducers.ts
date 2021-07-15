@@ -11,6 +11,8 @@ export const errors = (
   switch (action.type) {
     case ActionTypes.GET_ERROR:
       return { ...state, error: action.error };
+    case ActionTypes.CLEAR_ERROR:
+      return { ...state, error: "" };
 
     default:
       return state;

@@ -3,6 +3,7 @@ import { ActionGroupTypes } from "../types/todo";
 import * as api from "../../utils/Api";
 import * as actions from "../actions/group";
 import { spinnerStart, spinnerStop } from "../actions/totalActions";
+import { getError } from "../../components/errorHandler/actions";
 
 function* completeTodoSaga(): Generator<StrictEffect> {
   yield takeLatest(ActionGroupTypes.COMPLETE_TODO, completeTodo);
@@ -13,7 +14,7 @@ function* completeTodo(action: any) {
     const { data } = yield call(api.completeTodo, action.todoId);
     yield put(actions.completeTodoSuccess(data.id));
   } catch (err) {
-    yield put(actions.completeTodoFailure(err.message));
+    yield put(getError(err.message));
   } finally {
     yield put(spinnerStop());
   }

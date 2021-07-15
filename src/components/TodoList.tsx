@@ -17,12 +17,14 @@ const TodoList: React.FC<ITodo> = ({ id, inputSearch, radioValue }) => {
   const groupId = +id;
   const { todoGroups } = useTypeSelector((state) => state.groupsList);
   const todoItems = todoGroups.find((item) => item.id === groupId)?.todoItems;
+
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (!todoItems) {
       dispatch(loadTodos(groupId));
     }
-  }, []);
+  }, [todoGroups]);
 
   return (
     <List>

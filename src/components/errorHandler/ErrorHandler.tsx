@@ -3,6 +3,8 @@ import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch } from "react-redux";
+import { clearError } from "./actions";
 
 function Alert(props: any) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -23,7 +25,7 @@ interface IErrorHandler {
 const ErrorHandler: React.FC<IErrorHandler> = ({ error }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     if (error) setOpen(true);
   }, [error]);
@@ -32,6 +34,7 @@ const ErrorHandler: React.FC<IErrorHandler> = ({ error }) => {
     if (reason === "clickaway") {
       return;
     }
+    dispatch(clearError());
     setOpen(false);
   };
 

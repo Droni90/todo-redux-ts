@@ -10,10 +10,6 @@ export const loadGroupsSuccess = (groups: any) => {
   return { type: ActionGroupTypes.LOAD_GROUPS_SUCCESS, payload: groups };
 };
 
-export const loadGroupsFailure = (error: string) => {
-  return { type: ActionGroupTypes.LOAD_GROUPS_FAILURE, error };
-};
-
 export const addGroup = (group: IGroupCreateModel) => {
   return { type: ActionGroupTypes.ADD_GROUP, payload: group };
 };
@@ -23,21 +19,12 @@ export const addGroupSuccess = (group: IGroupCreateModel) => {
     payload: group,
   };
 };
-export const addGroupFailure = (error: string) => {
-  return { type: ActionGroupTypes.ADD_GROUP_FAILURE, error };
-};
 
 export const removeGroup = (id: number) => {
   return { type: ActionGroupTypes.REMOVE_GROUP, payload: id };
 };
 export const removeGroupSuccess = (id: number) => {
   return { type: ActionGroupTypes.REMOVE_GROUP_SUCCESS, id };
-};
-export const removeGroupFailure = (error: string) => {
-  return {
-    type: ActionGroupTypes.REMOVE_GROUP_FAILURE,
-    error,
-  };
 };
 
 export const loadTodos = (groupId: number) => {
@@ -52,9 +39,6 @@ export const loadTodosSuccess = (todos: any, id: number) => {
     payload: todos,
     groupId: id,
   };
-};
-export const loadTodosFailure = (error: string) => {
-  return { type: ActionGroupTypes.LOAD_TODOS_FAILURE, error };
 };
 
 export const addTodo = (todo: ITodoCreateModel, id: number) => {
@@ -71,9 +55,6 @@ export const addTodoSuccess = (todo: ITodoCreateModel, id: number) => {
     groupId: id,
   };
 };
-export const addTodoFailure = (error: string) => {
-  return { type: ActionGroupTypes.ADD_TODO_FAILURE, error };
-};
 
 export const removeTodo = (todoId: number, groupId: number) => {
   return {
@@ -89,12 +70,6 @@ export const removeTodoSuccess = (todoId: number, groupId: number) => {
     groupId,
   };
 };
-export const removeTodoFailure = (error: string) => {
-  return {
-    type: ActionGroupTypes.REMOVE_TODO_FAILURE,
-    error,
-  };
-};
 
 export const completeTodo = (todoId: number) => {
   return {
@@ -104,10 +79,4 @@ export const completeTodo = (todoId: number) => {
 };
 export const completeTodoSuccess = (id: number) => {
   return { type: ActionGroupTypes.COMPLETE_TODO_SUCCESS, id };
-};
-export const completeTodoFailure = (error: string) => {
-  return {
-    type: ActionGroupTypes.COMPLETE_TODO_FAILURE,
-    error,
-  };
 };
