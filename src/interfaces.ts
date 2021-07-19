@@ -4,10 +4,16 @@ export interface IGroupModel {
   todoItems?: ITodoModel[];
   totalCount: number;
   completedCount: number;
+  color: string;
 }
 
 export interface IGroupCreateModel {
   groupName: string;
+}
+
+export interface IColorGroupModel {
+  id: number;
+  color: string;
 }
 
 export interface ITodoModel {
@@ -25,4 +31,9 @@ export interface IGroupsState {
   todoGroups: IGroupModel[];
   isLoading?: boolean;
   error?: string;
+}
+
+export interface IModal {
+  isOpen: boolean;
+  groupId: number;
 }

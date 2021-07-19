@@ -32,6 +32,15 @@ export const groupsList = (
       );
       return { ...state, todoGroups: newGroups, error: "" };
 
+    case getType(todoActions.putGroupColorSuccess):
+      newGroups = state.todoGroups.map((item) => {
+        if (item.id === action.payload.groupId) {
+          item.color = action.payload.color;
+        }
+        return item;
+      });
+      return { ...state, todoGroups: newGroups, error: "" };
+
     case getType(todoActions.loadTodosSuccess):
       newGroups = state.todoGroups.map((item) => {
         if (item.id === action.payload.id) {

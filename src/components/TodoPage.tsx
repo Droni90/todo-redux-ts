@@ -65,7 +65,7 @@ const TodoPage: React.FC = () => {
         todoName: inputTodo,
         isCompleted: false,
       };
-      const inNum: number = +(id || 0);
+
       dispatch(addTodo({ model: newGroup, id: +id }));
       setInputTodo("");
     }

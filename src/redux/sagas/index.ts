@@ -6,6 +6,7 @@ import addTodoSaga from "./addTodoSaga";
 import removeTodoSaga from "./removeTodoSaga";
 import loadTodosSaga from "./loadTodosSaga";
 import completeTodoSaga from "./completeTodoSaga";
+import putGroupColorSaga from "./putGroupColor";
 
 export default function* rootSaga() {
   yield all([
@@ -15,6 +16,7 @@ export default function* rootSaga() {
     addTodoSaga(),
     removeTodoSaga(),
     loadTodosSaga(),
-    completeTodoSaga()
+    completeTodoSaga(),
+    putGroupColorSaga(),
   ]);
 }

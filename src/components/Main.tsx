@@ -52,9 +52,14 @@ const useStyles = makeStyles({
 interface IMain {
   handleGroupClick: (id: number) => void;
   handleRemoveGroup: (evt: React.SyntheticEvent, id: number) => void;
+  handleOpenColorModal: (evt: React.SyntheticEvent, groupId: number) => void;
 }
 
-const Main: React.FC<IMain> = ({ handleRemoveGroup, handleGroupClick }) => {
+const Main: React.FC<IMain> = ({
+  handleRemoveGroup,
+  handleGroupClick,
+  handleOpenColorModal,
+}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState<string>("");
@@ -81,6 +86,7 @@ const Main: React.FC<IMain> = ({ handleRemoveGroup, handleGroupClick }) => {
           <GroupsList
             handleGroupClick={handleGroupClick}
             handleRemoveGroup={handleRemoveGroup}
+            handleOpenColorModal={handleOpenColorModal}
           />
         ) : (
           <h2 className={classes.subtitle}>У вас нет дел</h2>

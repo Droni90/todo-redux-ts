@@ -53,6 +53,17 @@ export const removeTodoSuccess = createAction("todoGroup/REMOVE_TODO_SUCCESS")<{
   todoId: number;
 }>();
 
+export const putGroupColor = createAction("todoGroup/PUT_GROUP_COLOR")<{
+  groupId: number;
+  color: string;
+}>();
+export const putGroupColorSuccess = createAction(
+  "todoGroup/PUT_GROUP_COLOR_SUCCESS"
+)<{
+  groupId: number;
+  color: string;
+}>();
+
 export const completeTodo = createAction("todoGroup/COMPLETE_TODO")<number>();
 
 export const completeTodoSuccess = createAction(
