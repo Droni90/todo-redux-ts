@@ -11,11 +11,6 @@ export interface IGroupCreateModel {
   groupName: string;
 }
 
-export interface IColorGroupModel {
-  id: number;
-  color: string;
-}
-
 export interface ITodoModel {
   todoName: string;
   id: number;

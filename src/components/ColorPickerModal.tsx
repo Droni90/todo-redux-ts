@@ -2,6 +2,7 @@ import { HexColorPicker } from "react-colorful";
 import { makeStyles, Modal, DialogContent } from "@material-ui/core";
 import React from "react";
 import { IModal } from "../interfaces";
+import { useTypeSelector } from "../hooks/useTypeSelector";
 
 interface IColorListModal {
   handleClose: () => void;
@@ -10,10 +11,15 @@ interface IColorListModal {
   onEnter: (evt: React.KeyboardEvent) => void;
 }
 const useStyles = makeStyles(() => ({
-  colorPicker: {
-    zIndex: 5,
-    marginLeft: "40%",
-    marginTop: "250px",
+  colorPicker: {},
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  content: {
+    flex: "none",
+    paddingTop: "30px",
   },
 }));
 
@@ -24,12 +30,19 @@ const ColorPickerModal: React.FC<IColorListModal> = ({
   onEnter,
 }) => {
   const classes = useStyles();
-
+  const group = useTypeSelector((state) =>
+    state.groupsList.todoGroups.filter((group) => group.id === isOpen.groupId)
+  );
   return (
-    <Modal open={isOpen.isOpen} onClose={handleClose} onKeyPress={onEnter}>
-      <DialogContent>
+    <Modal
+      open={isOpen.isOpen}
+      onClose={handleClose}
+      onKeyPress={onEnter}
+      className={classes.modal}
+    >
+      <DialogContent className={classes.content}>
         <HexColorPicker
-          color={"#000"}
+          color={group[0]?.color}
           onChange={handleColor}
           className={classes.colorPicker}
         />
